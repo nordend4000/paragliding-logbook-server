@@ -334,7 +334,6 @@ router.get("/profile", async (req, res) => {
 	})
 })
 router.post("/newProfile", async (req, res) => {
-	console.log("post", req.body)
 	const newTotalHours = req.body.totalHours
 	const newFlightNumber = req.body.flightNumber
 	const newSpotNumber = req.body.spotNumber
@@ -374,6 +373,18 @@ router.delete("/deleteProfile/:id", async (req, res) => {
 	const id = req.params.id
 	await ProfileModel.findByIdAndRemove(id).exec()
 	res.send("deleted")
+})
+router.put("/addNewSpot", async (req, res) => {
+	const id = req.body.id
+	const newSpotNumber = req.body.spotNumber
+	try {
+		await ProfileModel.findById(id, (err, response) => {
+			response.spotNumber = newSpotNumber
+			res.send("new spot added")
+		})
+	} catch (err) {
+		console.log(err)
+	}
 })
 
 module.exports = router
