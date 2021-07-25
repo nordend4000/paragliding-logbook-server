@@ -77,6 +77,10 @@ const FlightSchema = new mongoose.Schema({
 		type: String,
 		required: false,
 	},
+	newSpot: {
+		type: Boolean,
+		required: false,
+	},
 })
 
 const Flight = mongoose.model("Flight", FlightSchema)

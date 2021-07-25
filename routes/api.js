@@ -31,6 +31,7 @@ router.post("/post", async (req, res) => {
 	const newUrl = req.body.url
 	const newPublic_id = req.body.public_id
 	const newOriginal_filename = req.body.original_filename
+	const newSpot = req.body.newNewSpot
 
 	const flight = new FlightModel({
 		number: newNumber,
@@ -52,6 +53,7 @@ router.post("/post", async (req, res) => {
 		url: newUrl,
 		public_id: newPublic_id,
 		original_filename: newOriginal_filename,
+		newSpot: newNewSpot,
 	})
 	try {
 		await flight.save()
@@ -80,6 +82,7 @@ router.put("/update", async (req, res) => {
 	const newUrl = req.body.url
 	const newPublic_id = req.body.public_id
 	const newOriginal_filename = req.body.original_filename
+	const newNewSpot = req.body.newSpot
 	try {
 		await FlightModel.findById(id, (err, response) => {
 			response.takeOff = newTakeOff
@@ -100,6 +103,7 @@ router.put("/update", async (req, res) => {
 			response.url = newUrl
 			response.public_id = newPublic_id
 			response.original_filename = newOriginal_filename
+			response.newSpot = newNewSpot
 			response.save()
 			res.send("update ok")
 		})
@@ -325,16 +329,20 @@ router.get("/profile", async (req, res) => {
 		if (err) {
 			res.send(err)
 		}
+		console.log(result)
 		res.send(result)
 	})
 })
 router.post("/newProfile", async (req, res) => {
+	console.log("post", req.body)
 	const newTotalHours = req.body.totalHours
 	const newFlightNumber = req.body.flightNumber
+	const newSpotNumber = req.body.spotNumber
 
 	const profile = new ProfileModel({
 		totalHours: newTotalHours,
 		flightNumber: newFlightNumber,
+		spotNumber: newSpotNumber,
 	})
 
 	try {
@@ -345,13 +353,16 @@ router.post("/newProfile", async (req, res) => {
 	}
 })
 router.put("/updateProfile", async (req, res) => {
+	console.log("put", req.body)
 	const id = req.body.id
 	const newTotalHours = req.body.totalHours
 	const newFlightNumber = req.body.flightNumber
+	const newSpotNumber = req.body.spotNumber
 	try {
 		await ProfileModel.findById(id, (err, response) => {
 			response.totalHours = newTotalHours
 			response.flightNumber = newFlightNumber
+			response.spotNumber = newSpotNumber
 			response.save()
 			res.send("update profile ok")
 		})

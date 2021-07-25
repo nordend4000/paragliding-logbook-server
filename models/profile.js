@@ -3,11 +3,15 @@ const mongoose = require("mongoose")
 const profileSchema = new mongoose.Schema({
 	flightNumber: {
 		type: Number,
-		required: true,
+		required: false,
 	},
 	totalHours: {
 		type: Number,
-		required: true,
+		required: false,
+	},
+	spotNumber: {
+		type: Number,
+		required: false,
 	},
 })
 
