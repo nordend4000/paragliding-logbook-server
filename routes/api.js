@@ -31,7 +31,7 @@ router.post("/post", async (req, res) => {
 	const newUrl = req.body.url
 	const newPublic_id = req.body.public_id
 	const newOriginal_filename = req.body.original_filename
-	const newSpot = req.body.newNewSpot
+	const newNewSpot = req.body.newSpot
 
 	const flight = new FlightModel({
 		number: newNumber,
@@ -160,7 +160,6 @@ router.get("/sort/:key/:dir", async (req, res) => {
 })
 router.get("/search/:selectSearch/:search", async (req, res) => {
 	const searchObject = { [req.params.selectSearch]: req.params.search }
-	console.log(searchObject)
 	try {
 		FlightModel.find(searchObject).exec(function (err, response) {
 			res.send(response)
@@ -194,7 +193,6 @@ router.get("/getGlider/:id", async (req, res) => {
 	}
 })
 router.post("/newGlider", async (req, res) => {
-	console.log(req.body)
 	const newGlider = req.body.glider
 	const newBrand = req.body.brand
 	const newHours = req.body.hours
@@ -230,7 +228,6 @@ router.put("/updateGlider", async (req, res) => {
 			response.hours = newHours
 			response.control = newControl
 			response.purchase = newPurchase
-
 			response.save()
 			res.send("update glider ok")
 		})
@@ -263,7 +260,6 @@ router.get("/getHarness/:id", async (req, res) => {
 	}
 })
 router.post("/newHarness", async (req, res) => {
-	console.log(req.body)
 	const newIsHarness = req.body.isHarness
 	const newHarness = req.body.harness
 	const newHarnessBrand = req.body.harnessBrand
@@ -329,7 +325,6 @@ router.get("/profile", async (req, res) => {
 		if (err) {
 			res.send(err)
 		}
-		console.log(result)
 		res.send(result)
 	})
 })
@@ -342,6 +337,7 @@ router.post("/newProfile", async (req, res) => {
 		totalHours: newTotalHours,
 		flightNumber: newFlightNumber,
 		spotNumber: newSpotNumber,
+		spotTotal: newSpotNumber,
 	})
 
 	try {
@@ -352,7 +348,6 @@ router.post("/newProfile", async (req, res) => {
 	}
 })
 router.put("/updateProfile", async (req, res) => {
-	console.log("put", req.body)
 	const id = req.body.id
 	const newTotalHours = req.body.totalHours
 	const newFlightNumber = req.body.flightNumber
@@ -376,10 +371,11 @@ router.delete("/deleteProfile/:id", async (req, res) => {
 })
 router.put("/addNewSpot", async (req, res) => {
 	const id = req.body.id
-	const newSpotNumber = req.body.spotNumber
+	const newSpotTotal = req.body.spotTotal
 	try {
 		await ProfileModel.findById(id, (err, response) => {
-			response.spotNumber = newSpotNumber
+			response.spotTotal = newSpotTotal
+			response.save()
 			res.send("new spot added")
 		})
 	} catch (err) {
